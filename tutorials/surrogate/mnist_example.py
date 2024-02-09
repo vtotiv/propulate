@@ -24,7 +24,7 @@ from tutorials.surrogate.default_surrogate import DefaultSurrogate
 # from tutorials.surrogate.static_surrogate import StaticSurrogate
 # from tutorials.surrogate.dynamic_surrogate import DynamicSurrogate
 
-GPUS_PER_NODE: int = 1
+GPUS_PER_NODE: int = 4
 
 log_path = "torch_ckpts"
 
@@ -235,7 +235,7 @@ def ind_loss(
     activation = str(params["activation"])  # Activation function
     lr = float(params["lr"])  # Learning rate
 
-    epochs: int = 2  # Number of epochs to train
+    epochs: int = 10  # Number of epochs to train
 
     rank: int = MPI.COMM_WORLD.Get_rank()  # Get rank of current worker
 
@@ -339,7 +339,7 @@ def init_log_csv():
 if __name__ == "__main__":
     init_log_csv()
 
-    num_generations = 3  # Number of generations
+    num_generations = 20  # Number of generations
     pop_size = 2 * MPI.COMM_WORLD.size  # Breeding population size
     limits = {
         "conv_layers": (2, 10),
