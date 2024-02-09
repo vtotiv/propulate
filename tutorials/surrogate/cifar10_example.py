@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import csv
 import random
 import os
 import sys
@@ -395,7 +396,22 @@ def set_seeds(seed_value=42):
     os.environ['PYTHONHASHSEED'] = str(seed_value)  # python hash seed.
 
 
+def init_log_csv():
+    rank = MPI.COMM_WORLD.rank
+    file_name = f"cifar_log_{rank}.csv"
+    file_exists = os.path.isfile(file_name)
+
+    with open(file_name, mode='a', newline='') as file:
+        writer = csv.writer(file)
+        if not file_exists:
+            header = ["time", "rank", "surrogate", "generation", "epoch",
+                      "paramsID", "avg_validation_loss"]
+            writer.writerow(header)
+
+
 if __name__ == "__main__":
+    init_log_csv()
+
     num_generations = 3  # Number of generations
     pop_size = 2 * MPI.COMM_WORLD.size  # Breeding population size
     limits = {
@@ -421,10 +437,10 @@ if __name__ == "__main__":
         generations=num_generations,  # Number of generations per worker
         num_islands=1,  # Number of islands
         checkpoint_path=log_path,
-        surrogate_factory=lambda: DefaultSurrogate(),
-        # surrogate_factory=lambda: LogSurrogate(),
-        # surrogate_factory=lambda: StaticSurrogate(),
-        # surrogate_factory=lambda: DynamicSurrogate(limits),
+        surrogate_factory=lambda: DefaultSurrogate("cifar"),
+        # surrogate_factory=lambda: LogSurrogate("cifar"),
+        # surrogate_factory=lambda: StaticSurrogate("cifar"),
+        # surrogate_factory=lambda: DynamicSurrogate(limits, "cifar"),
     )
     islands.evolve(  # Run evolutionary optimization.
         top_n=1,  # Print top-n best individuals on each island in summary.

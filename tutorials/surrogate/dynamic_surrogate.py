@@ -1,3 +1,6 @@
+import csv
+from time import time
+
 import random
 import GPy
 from mpi4py import MPI
@@ -16,6 +19,7 @@ class DynamicSurrogate(Surrogate):
             Dict[str, Tuple[int, int]],
             Dict[str, Tuple[str, ...]],
         ],
+        dataset_name: str,
     ) -> None:
         print("Dynamic Surrogate - init")
         self.limits = limits
@@ -48,10 +52,31 @@ class DynamicSurrogate(Surrogate):
         np.random.seed(42 * rank)
         random.seed(42 * rank)
 
+        # --------------------
+        # set up csv logging
+        # --------------------
+        # set dataset name for file name
+        self.dataset_name: str = dataset_name
+        self.rank: int = MPI.COMM_WORLD.rank
+        # remember the current epoch
+        self.epoch: int = 0
+        # and individual
+        self.ind: Individual = None
+        # change this for each surrogate
+        self.surrogate_name: str = "DynamicSurrogate"
+        # -----------------------
+
     def start_run(self, ind: Individual):
         print("Dynamic Surrogate - start run")
         self.current_encoding = self.encode_configuration(ind)
         print("Dynamic Surrogate - start run - encoding", self.current_encoding)
+
+        # ----- csv logging -----
+        # reset epoch
+        self.epoch = 0
+        # remeber ind for generation and params
+        self.ind = ind
+        # -----------------------
 
         if self.first_run:
             return
@@ -105,6 +130,12 @@ class DynamicSurrogate(Surrogate):
 
     def cancel(self, loss: float) -> bool:
         print("Dynamic Surrogate - cancel - loss", loss)
+
+        # ----- csv logging -----
+        self._log_to_csv(loss)
+        self.epoch += 1
+        # -----------------------
+
         # the first run is never cancelled and has to run till the end
         if self.first_run:
             # here we also count how often cancel is called for later reference
@@ -227,3 +258,20 @@ class DynamicSurrogate(Surrogate):
                 encoded_array[0, i] = value
 
         return encoded_array
+
+    def _log_to_csv(
+        self,
+        avg_validation_loss,
+    ) -> None:
+        file_name = f"{self.dataset_name}_log_{self.rank}.csv"
+
+        with open(file_name, mode='a', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow([
+                time(),
+                self.rank,
+                self.surrogate_name,
+                self.ind.generation,
+                self.epoch,
+                '#'.join([f"{k}={v}" for k, v in self.ind.items()]),
+                avg_validation_loss])
