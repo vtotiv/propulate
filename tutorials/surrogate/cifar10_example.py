@@ -26,7 +26,7 @@ from tutorials.surrogate.default_surrogate import DefaultSurrogate
 # from tutorials.surrogate.dynamic_surrogate import DynamicSurrogate
 
 
-GPUS_PER_NODE: int = 4
+GPUS_PER_NODE: int = 2
 
 log_path = "torch_ckpts"
 
@@ -327,7 +327,7 @@ def ind_loss(
     model.best_accuracy = 0.0  # Initialize the model's best validation accuracy.
 
     train_loader, val_loader = get_data_loaders(
-        batch_size=8
+        batch_size=32
     )  # Get training and validation data loaders.
 
     # Configure optimizer
@@ -404,7 +404,7 @@ def init_log_csv():
 if __name__ == "__main__":
     init_log_csv()
 
-    num_generations = 20  # Number of generations
+    num_generations = 32  # Number of generations
     pop_size = 2 * MPI.COMM_WORLD.size  # Breeding population size
     limits = {
         "lr": (0.01, 0.0001),
@@ -414,6 +414,8 @@ if __name__ == "__main__":
         MPI.COMM_WORLD.rank
     )  # Set up separate random number generator for evolutionary optimizer.
     set_seeds(42 * MPI.COMM_WORLD.Get_rank())  # set seed for torch
+    # set_seeds(271 * MPI.COMM_WORLD.Get_rank())  # set seed for torch
+    # set_seeds(3141 * MPI.COMM_WORLD.Get_rank())  # set seed for torch
     propagator = get_default_propagator(  # Get default evolutionary operator.
         pop_size=pop_size,  # Breeding population size
         limits=limits,  # Search space
