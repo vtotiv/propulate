@@ -1,7 +1,7 @@
 cycler==0.11.0
 deepdiff>=5.8.0
 kiwisolver==1.4.2
-mpi4py==3.0.3
+mpi4py==3.1.5
 numpy
 ordered-set==4.1.0
 pyparsing>=3.0.7
