@@ -1,0 +1,17 @@
+PERUN REPORT
+
+App name: cifar10_example
+First run: 2024-02-10T18:51:28.209860
+Last run: 2024-02-10T18:51:28.209860
+
+
+RUN ID: 2024-02-10T18:51:28.209860
+
+|   Round # | Host            | RUNTIME    | ENERGY     | POWER     | CPU_UTIL   | GPU_POWER   | GPU_MEM   | MEM_UTIL   |
+|----------:|:----------------|:-----------|:-----------|:----------|:-----------|:------------|:----------|:-----------|
+|         0 | All             | 3986.633 s | 650.787 kJ | 163.205 W | 12.569 %   | 163.205 W   | 2.125 GB  | 0.028 %    |
+|         0 | bachelor-v100-3 | 3986.633 s | 650.787 kJ | 163.205 W | 12.569 %   | 163.205 W   | 2.125 GB  | 0.028 %    |
+
+Application Summary
+
+The application has been run 1 times. Throughout its runtime, it has used 0.181 kWh, released a total of 75.527 kgCO2e into the atmosphere, and you paid 0.06 € in electricity for it.

@@ -1,0 +1,15 @@
+PERUN REPORT
+
+App name: mnist_example
+First run: 2024-02-10T09:54:42.218230
+Last run: 2024-02-10T09:54:42.218230
+
+
+RUN ID: 2024-02-10T09:54:42.218230
+
+|   Round # | Host            | RUNTIME     | CPU_UTIL   | MEM_UTIL   |
+|----------:|:----------------|:------------|:-----------|:-----------|
+|         0 | All             | 10272.285 s | 12.498 %   | 0.023 %    |
+|         0 | bachelor-v100-1 | 10272.285 s | 12.498 %   | 0.023 %    |
+
+The application has been run 1 times.

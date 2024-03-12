@@ -1,0 +1,17 @@
+PERUN REPORT
+
+App name: mnist_example
+First run: 2024-02-10T14:46:14.624944
+Last run: 2024-02-10T14:46:14.624944
+
+
+RUN ID: 2024-02-10T14:46:14.624944
+
+|   Round # | Host            | RUNTIME    | ENERGY     | POWER    | CPU_UTIL   | GPU_POWER   | GPU_MEM   | MEM_UTIL   |
+|----------:|:----------------|:-----------|:-----------|:---------|:-----------|:------------|:----------|:-----------|
+|         0 | All             | 3879.482 s | 310.929 kJ | 80.142 W | 12.556 %   | 80.142 W    | 1.350 GB  | 0.025 %    |
+|         0 | bachelor-v100-3 | 3879.482 s | 310.929 kJ | 80.142 W | 12.556 %   | 80.142 W    | 1.350 GB  | 0.025 %    |
+
+Application Summary
+
+The application has been run 1 times. Throughout its runtime, it has used 0.086 kWh, released a total of 36.085 kgCO2e into the atmosphere, and you paid 0.03 € in electricity for it.
